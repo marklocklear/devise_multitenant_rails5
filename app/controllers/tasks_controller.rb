@@ -26,6 +26,7 @@ class TasksController < ApplicationController
   # POST /tasks.json
   def create
     @task = Task.new(task_params)
+    @task.user = current_user #this line sets the org_id for a task
 
     respond_to do |format|
       if @task.save
