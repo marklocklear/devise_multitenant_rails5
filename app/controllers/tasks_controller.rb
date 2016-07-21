@@ -5,12 +5,23 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    # @tasks = Task.all
+    @tasks = current_user.tasks #multi-tenancy; only returns tasks with the the current users org
   end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
+    #a bit of clever code; the current users id must match the tasks user id 
+    if @task = current_user.tasks.select {|p| p.id.eql?(params[:id].to_i) }.first
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @patient }
+      end
+    else
+      flash[:notice] = "Unauthorized Page View"
+      redirect_to(tasks_url)
+    end
   end
 
   # GET /tasks/new
@@ -20,6 +31,15 @@ class TasksController < ApplicationController
 
   # GET /tasks/1/edit
   def edit
+    if @task = current_user.tasks.select {|p| p.id.eql?(params[:id].to_i) }.first
+      respond_to do |format|
+        format.html # show.html.erb
+        format.xml  { render :xml => @patient }
+      end
+    else
+      flash[:notice] = "Unauthorized Page View"
+      redirect_to(tasks_url)
+    end
   end
 
   # POST /tasks
