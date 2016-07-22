@@ -1,7 +1,7 @@
 class User::RegistrationsController < Devise::RegistrationsController
 # before_action :configure_sign_up_params, only: [:create]
 # before_action :configure_account_update_params, only: [:update]
-before_filter :update_sanitized_params, if: :devise_controller?
+before_action :update_sanitized_params, if: :devise_controller?
 
   # GET /resource/sign_up
   def new
@@ -13,7 +13,8 @@ before_filter :update_sanitized_params, if: :devise_controller?
   def create
     #   super
   @user = User.new sign_up_params
-    @user.build_organization(sign_up_params[:organization_attributes])
+    @user.build_organization(sign_up_params[:organization_attributes]) #create new organization
+    @user.admin = true #first user to signup is admin
     if @user.save
       flash[:notice] = "Successfully created User." 
       redirect_to tasks_path 
