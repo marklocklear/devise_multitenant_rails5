@@ -6,7 +6,11 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     # @tasks = Task.all
-    @tasks = current_user.tasks #multi-tenancy; only returns tasks with the the current users org
+    if current_user.admin
+      @tasks = current_user.organization.tasks
+    else
+      @tasks = current_user.tasks #multi-tenancy; only returns tasks with the the current users org
+    end
   end
 
   # GET /tasks/1

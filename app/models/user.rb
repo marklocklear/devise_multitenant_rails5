@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 	belongs_to :organization
-	has_many :tasks
+	has_many :tasks, dependent: :destroy
   accepts_nested_attributes_for :organization
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable and :omniauthable

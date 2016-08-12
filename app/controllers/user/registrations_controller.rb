@@ -13,7 +13,6 @@ before_action :update_sanitized_params, if: :devise_controller?
   def create
     #   super
   @user = User.new sign_up_params
-    @user.build_organization(sign_up_params[:organization_attributes]) #create new organization
     @user.admin = true #first user to signup is admin
     if @user.save
       flash[:notice] = "Successfully created User." 
