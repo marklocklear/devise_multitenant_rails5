@@ -9,6 +9,9 @@
   </head>
 
   <body>
+	  <% flash.each do |name, msg| %>
+	    <%= content_tag :section, msg, :id => "flash_#{name}", :class => "flash" %>
+		<% end %>
      <div id="container">
 	  	<span style="text-align: right">
 	      <div id="user_nav">

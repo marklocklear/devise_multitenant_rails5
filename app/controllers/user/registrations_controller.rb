@@ -15,10 +15,11 @@ before_action :update_sanitized_params, if: :devise_controller?
   @user = User.new sign_up_params
     @user.admin = true #first user to signup is admin
     if @user.save
-      flash[:notice] = "Successfully created User." 
-      redirect_to tasks_path 
+      flash[:notice] = "Successfully created User" 
+      sign_up resource_name, @user
+      redirect_to tasks_path
     else
-      render :action => 'new'
+      render action: 'new'
     end
   end
 
@@ -65,6 +66,7 @@ before_action :update_sanitized_params, if: :devise_controller?
   # The path used after sign up.
   # def after_sign_up_path_for(resource)
   #   super(resource)
+  #   redirect_to tasks_path 
   # end
 
   # The path used after sign up for inactive accounts.
